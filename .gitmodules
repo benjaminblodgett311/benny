@@ -1,0 +1,3 @@
+[submodule "res"]
+	path = libraries
+	url = git@github.com:benjaminblodgett311/opengl-glfw3-libraries.git

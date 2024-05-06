@@ -75,9 +75,6 @@ int main()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImFont* font_default_ptr = io.Fonts->AddFontDefault();
-	ImFont* font_noto_ptr = io.Fonts->AddFontFromFileTTF("fonts/malgun.ttf", 30.0f, NULL, io.Fonts->GetGlyphRangesKorean());
-	IM_ASSERT(font_noto_ptr != NULL);
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 
@@ -101,11 +98,7 @@ int main()
 		ImGui::SetNextWindowPos({ 0, 0 });
 		ImGui::SetNextWindowSize({ 1280, 720 });
 		ImGui::Begin("##window", nullptr, flags);
-		const char* test_string = u8"ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ";
-		const char* korean_text = u8"한국어 텍스트";
-		ImGui::PushFont(font_noto_ptr);
-		ImGui::Text(korean_text);
-		ImGui::PopFont();
+		ImGui::Text("Hello");
 		ImGui::End();
 
 		ImGui::Render();
