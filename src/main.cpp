@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include "berror.h"
+
 float vertices[] = {
 	 0.0,  0.5, 0.0,
 	-0.5, -0.5, 0.0,
