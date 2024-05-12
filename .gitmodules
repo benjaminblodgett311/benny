@@ -1,3 +1,7 @@
-[submodule "res"]
+[submodule "libraries"]
 	path = libraries
 	url = git@github.com:benjaminblodgett311/opengl-glfw3-libraries.git
+
+[submodule "res"]
+	path = res
+	url = git@github.com:benjaminblodgett311/benny-res.git
