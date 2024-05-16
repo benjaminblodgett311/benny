@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 unsigned char BERRNO = 0;
 
 typedef enum : unsigned char {
@@ -62,3 +66,7 @@ const char* const BERRNO_SEVERITY_MESSAGES[] = {
 
 #define BERRNO_SEVERITY BERRNO >> 5
 #define BERRNO_CODE     BERRNO & 31
+
+#ifdef __cplusplus
+}
+#endif

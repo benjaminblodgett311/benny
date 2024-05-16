@@ -1,7 +1,11 @@
 #pragma once
-
 #pragma warning(push)
 #pragma warning(disable:4996)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,7 +44,7 @@ char* berror_handle_rv(int rv, const char* message)
 	return NULL;
 }
 
-void berror_handle_rv(void* rv_ptr, const char* message)
+void berror_handle_rv_ptr(void* rv_ptr, const char* message)
 {
 	char* berror_message_ptr = berror_handle_rv(0, 0);
 	assert(rv_ptr != NULL);
@@ -79,3 +83,7 @@ void b_error_deinit(void)
 	free(berror_buffer);
 }
 #pragma warning(pop)
+
+#ifdef __cplusplus
+}
+#endif

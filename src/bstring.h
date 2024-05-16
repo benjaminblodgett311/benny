@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "bassert.h"
 #include "berrno.h"
 
@@ -86,3 +90,7 @@ bstring bstring_cat(bstring str, const char* buffer_ptr, size_t bytes)
 	memcpy(str + bstring_length(str) - bytes, buffer_ptr, bytes);
 	return str;
 }
+
+#ifdef __cplusplus
+}
+#endif
