@@ -14,6 +14,7 @@ typedef enum : unsigned char {
 	BENOMEM = 4,
 	BEEXPECTNULL = 5,
 	BEBUFFNULL = 6,
+	BERANGE = 7,
 } BERRNO_CODE;
 
 const char* const BERRNO_NAMES[] = {
@@ -24,6 +25,7 @@ const char* const BERRNO_NAMES[] = {
 	"BENOMEM",
 	"BEEXPECTNULL",
 	"BEBUFFNULL",
+	"BERANGE",
 };
 
 const char* const BERRNO_NAMES_FULL[] = {
@@ -34,6 +36,7 @@ const char* const BERRNO_NAMES_FULL[] = {
 	"BEN_ERROR_NO_MEMORY",
 	"BEN_ERROR_EXPECTED_NULL",
 	"BEN_ERROR_BUFFER_NULL",
+	"BEN_ERROR_RANGE_NULL",
 };
 
 const char* const BERRNO_MESSAGES[] = {
@@ -44,6 +47,7 @@ const char* const BERRNO_MESSAGES[] = {
 	"could not allocate new memory because the program ran out of heap space",
 	"function expected parameter to be null, but it wasn't",
 	"the pointer for a stack allocated buffer turned out to be null",
+	"specified an invalid range",
 };
 
 typedef enum : unsigned char {
