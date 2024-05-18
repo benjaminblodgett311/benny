@@ -33,7 +33,7 @@ namespace bgl
 	typedef GLuint bshader;
 	typedef GLuint bprogram;
 
-	namespace bshader_type_flags
+	namespace bshader_type
 	{
 		enum : u8
 		{
@@ -43,8 +43,90 @@ namespace bgl
 			tess_control_bit    = 1 << 3,
 			tess_evaluation_bit = 1 << 4,
 			compute_bit         = 1 << 5,
+
+			vertex              = 0,
+			fragment            = 1,
+			geometry            = 2,
+			tess_control        = 3,
+			tess_evaluation     = 4,
+			compute             = 5,
+
 			count               = 6,
 		};
+	}
+
+	struct bshader_glsl_info
+	{
+		bshader id;
+		const char* file_path;
+		const char* glsl_buffer;
+	};
+
+	struct bshader_spirv_info
+	{
+		bshader id;
+		const char* file_path;
+		char* spirv_buffer;
+	};
+
+	struct bshader_glsl_shaders_info
+	{
+		bshader_glsl_info vertex;
+		bshader_glsl_info fragment;
+		bshader_glsl_info geometry;
+		bshader_glsl_info tess_control;
+		bshader_glsl_info tess_evaluation;
+		bshader_glsl_info compute;
+	};
+
+	int bshader_compile_glsl_shaders(bshader_glsl_shaders_info* compile_info)
+	{
+		int success = 0;
+
+		auto shader_array = (bshader_glsl_info*)(&compile_info);
+		for (u16 s = 0; s < bshader_type::count; s++)
+		{
+			auto& shader_info = shader_array[s];
+
+			if (shader_info.id != 0)
+				continue;
+
+			/*
+			* opengl has something called glisshader to check if a shader id
+			* has been previously created with glcreateshader and not deleted
+			* it also has stuff to get and set the source code of a shader
+			* the only thing it doesn't have is a way to associate a file path
+			* with a shader, but I can do that myself tomorrow
+			*/
+			if (shader_info.glsl_buffer == nullptr)
+			{
+				DEBUG_ONLY({
+					if (shader_info.file_path == NULL) { BERRNO = BEMEMNULL | BERROR_SEVERITY_WARNING; success = -1; continue; }
+					});
+
+				GLuint opengl_shader_type;
+				switch (s)
+				{
+				case bshader_type::vertex: opengl_shader_type = GL_VERTEX_SHADER;  break;
+				case bshader_type::fragment: opengl_shader_type = GL_FRAGMENT_SHADER; break;
+				case bshader_type::geometry: opengl_shader_type = GL_GEOMETRY_SHADER; break;
+				case bshader_type::tess_control: opengl_shader_type = GL_TESS_CONTROL_SHADER; break;
+				case bshader_type::tess_evaluation: opengl_shader_type = GL_TESS_EVALUATION_SHADER; break;
+				case bshader_type::compute: opengl_shader_type = GL_COMPUTE_SHADER; break;
+				}
+
+				shader_info.id = glCreateShader(opengl_shader_type);
+				if (shader_info.id == 0)
+				{
+					BERRNO = BEPARTFAIL | BERROR_SEVERITY_HIGH; return -1;
+				}
+			}
+			else
+			{
+			}
+		}
+
+		return success;
 	}
 }
 
