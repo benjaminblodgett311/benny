@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "berror.h"
+#include "bint.h"
 
 float vertices[] = {
 	 0.0,  0.5, 0.0,
@@ -26,6 +27,26 @@ const char* fragment_shader_source = "#version 330 core\n"
 "{\n"
 "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 "}\n\0";
+
+namespace bgl
+{
+	typedef GLuint bshader;
+	typedef GLuint bprogram;
+
+	namespace bshader_type_flags
+	{
+		enum : u8
+		{
+			vertex_bit          = 1 << 0,
+			fragment_bit        = 1 << 1,
+			geometry_bit        = 1 << 2,
+			tess_control_bit    = 1 << 3,
+			tess_evaluation_bit = 1 << 4,
+			compute_bit         = 1 << 5,
+			count               = 6,
+		};
+	}
+}
 
 int main()
 {
