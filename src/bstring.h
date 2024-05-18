@@ -91,6 +91,13 @@ bstring bstring_cat(bstring str, const char* buffer_ptr, size_t bytes)
 	return str;
 }
 
+void bstring_delete(bstring str)
+{
+	DEBUG_ONLY({ if (str == NULL) { BERRNO = BEARGNULL | BERROR_SEVERITY_LOW;  return NULL; } });
+
+	free(str - sizeof(size_t) - sizeof(size_t));
+}
+
 #ifdef __cplusplus
 }
 #endif

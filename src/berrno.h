@@ -4,9 +4,11 @@
 extern "C" {
 #endif
 
-unsigned char BERRNO = 0;
+#include "bint.h"
 
-typedef enum : unsigned char {
+u16 BERRNO = 0;
+
+typedef enum : u16 {
 	BEFINE = 0,
 	BEARGNULL = 1,
 	BEMEMNULL = 2,
@@ -15,6 +17,7 @@ typedef enum : unsigned char {
 	BEEXPECTNULL = 5,
 	BEBUFFNULL = 6,
 	BERANGE = 7,
+	BEPARTFAIL = 8,
 } BERRNO_CODE;
 
 const char* const BERRNO_NAMES[] = {
@@ -26,6 +29,7 @@ const char* const BERRNO_NAMES[] = {
 	"BEEXPECTNULL",
 	"BEBUFFNULL",
 	"BERANGE",
+	"BEPARTFAIL",
 };
 
 const char* const BERRNO_NAMES_FULL[] = {
@@ -37,6 +41,7 @@ const char* const BERRNO_NAMES_FULL[] = {
 	"BEN_ERROR_EXPECTED_NULL",
 	"BEN_ERROR_BUFFER_NULL",
 	"BEN_ERROR_RANGE_NULL",
+	"BEN_ERROR_THIRD_PARTY_FAILURE",
 };
 
 const char* const BERRNO_MESSAGES[] = {
@@ -48,15 +53,20 @@ const char* const BERRNO_MESSAGES[] = {
 	"function expected parameter to be null, but it wasn't",
 	"the pointer for a stack allocated buffer turned out to be null",
 	"specified an invalid range",
+	"third party function returned a value indicating failure or the functionality otherwise failed"
 };
+//                            sizeof(BERRNO) * 8 - 3
+#define BERRNO_SEVERITY_SHIFT 13
+#define BERRNO_SEVERITY       BERRNO >> BERRNO_SEVERITY_SHIFT
+#define BERRNO_CODE           BERRNO & 0x1FFF
 
-typedef enum : unsigned char {
-	BERROR_SEVERITY_UNKNOWN = 0 << 5,
-	BERROR_SEVERITY_NONE = 1 << 5,
-	BERROR_SEVERITY_NOTIFY = 2 << 5,
-	BERROR_SEVERITY_LOW = 3 << 5,
-	BERROR_SEVERITY_MEDIUM = 4 << 5,
-	BERROR_SEVERITY_HIGH = 5 << 5,
+typedef enum : u16 {
+	BERROR_SEVERITY_UNKNOWN = 0 << BERRNO_SEVERITY_SHIFT,
+	BERROR_SEVERITY_NONE    = 1 << BERRNO_SEVERITY_SHIFT,
+	BERROR_SEVERITY_NOTIFY  = 2 << BERRNO_SEVERITY_SHIFT,
+	BERROR_SEVERITY_LOW     = 3 << BERRNO_SEVERITY_SHIFT,
+	BERROR_SEVERITY_MEDIUM  = 4 << BERRNO_SEVERITY_SHIFT,
+	BERROR_SEVERITY_HIGH    = 5 << BERRNO_SEVERITY_SHIFT,
 } BERROR_SEVERITY_LEVEL;
 
 const char* const BERRNO_SEVERITY_MESSAGES[] = {
@@ -67,9 +77,6 @@ const char* const BERRNO_SEVERITY_MESSAGES[] = {
 	"SEVERITY_MEDIUM",
 	"SEVERITY_HIGH",
 };
-
-#define BERRNO_SEVERITY BERRNO >> 5
-#define BERRNO_CODE     BERRNO & 31
 
 #ifdef __cplusplus
 }
