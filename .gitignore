@@ -6,3 +6,7 @@
 *.user
 benny/
 x64/
+
+# Vim
+*.swo
+*.swp
